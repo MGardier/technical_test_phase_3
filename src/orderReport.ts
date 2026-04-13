@@ -1,7 +1,36 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import { FREE_SHIPPING_THRESHOLD, HANDLING_FEE, LOYALTY_RATIO, MAX_DISCOUNT, TAX_RATE } from './constants';
+import {
+    CURRENCY_RATES,
+    DEFAULT_CURRENCY,
+    DEFAULT_CUSTOMER_LEVEL,
+    DEFAULT_PRODUCT_WEIGHT,
+    DEFAULT_SHIPPING_FEE,
+    DEFAULT_SHIPPING_PER_KG,
+    DEFAULT_SHIPPING_ZONE,
+    FREE_SHIPPING_THRESHOLD,
+    HANDLING_DOUBLE_THRESHOLD,
+    HANDLING_FEE,
+    HANDLING_ITEM_THRESHOLD,
+    HEAVY_WEIGHT_SURCHARGE_PER_KG,
+    HEAVY_WEIGHT_THRESHOLD,
+    HIGH_WEIGHT_THRESHOLD,
+    LOYALTY_DISCOUNT_TIERS,
+    LOYALTY_RATIO,
+    MAX_DISCOUNT,
+    MID_WEIGHT_SURCHARGE_PER_KG,
+    MID_WEIGHT_THRESHOLD,
+    MORNING_BONUS_RATE,
+    MORNING_HOUR_LIMIT,
+    REMOTE_ZONES,
+    REMOTE_ZONE_SURCHARGE,
+    TAX_RATE,
+    VOLUME_DISCOUNT_TIERS,
+    WEEKEND_DAYS,
+    WEEKEND_DISCOUNT_BONUS,
+} from './constants';
 import { loadCsvData } from './csv/loadCsvData';
+import { Currency, CustomerLevel, ShippingZoneId } from './types/types';
 
 
 
@@ -58,8 +87,8 @@ function run(): string {
         // Bonus matin (règle cachée basée sur l'heure)
         const hour = parseInt(o.time.split(':')[0]);
         let morningBonus = 0;
-        if (hour < 10) {
-            morningBonus = lineTotal * 0.03; // 3% de réduction supplémentaire
+        if (hour < MORNING_HOUR_LIMIT) {
+            morningBonus = lineTotal * MORNING_BONUS_RATE;
         }
         lineTotal = lineTotal - morningBonus;
 
@@ -74,7 +103,7 @@ function run(): string {
         }
 
         totalsByCustomer[cid].subtotal += lineTotal;
-        totalsByCustomer[cid].weight += (prod.weight || 1.0) * o.qty;
+        totalsByCustomer[cid].weight += (prod.weight || DEFAULT_PRODUCT_WEIGHT) * o.qty;
         totalsByCustomer[cid].items.push(o);
         totalsByCustomer[cid].morningBonus += morningBonus;
     }
@@ -91,42 +120,34 @@ function run(): string {
     for (const cid of sortedCustomerIds) {
         const cust = customers[cid] || {};
         const name = cust.name || 'Unknown';
-        const level = cust.level || 'BASIC';
-        const zone = cust.shipping_zone || 'ZONE1';
-        const currency = cust.currency || 'EUR';
+        const level: CustomerLevel = cust.level || DEFAULT_CUSTOMER_LEVEL;
+        const zone: ShippingZoneId = cust.shipping_zone || DEFAULT_SHIPPING_ZONE;
+        const currency: Currency = cust.currency || DEFAULT_CURRENCY;
 
         const sub = totalsByCustomer[cid].subtotal;
 
-        // Remise par paliers (duplication #1 + magic numbers)
+        // Remise par paliers (tri descendant, premier match gagne)
         let disc = 0.0;
-        if (sub > 50) {
-            disc = sub * 0.05;
-        }
-        if (sub > 100) {
-            disc = sub * 0.10; // écrase la précédente (bug intentionnel)
-        }
-        if (sub > 500) {
-            disc = sub * 0.15;
-        }
-        if (sub > 1000 && level === 'PREMIUM') {
-            disc = sub * 0.20;
+        const volumeTier = VOLUME_DISCOUNT_TIERS.find(
+            tier => sub > tier.threshold && (!('requiresPremium' in tier && tier.requiresPremium) || level === 'PREMIUM'),
+        );
+        if (volumeTier) {
+            disc = sub * volumeTier.rate;
         }
 
         // Bonus weekend (règle cachée basée sur la date)
         const firstOrderDate = totalsByCustomer[cid].items[0]?.date || '';
         const dayOfWeek = firstOrderDate ? new Date(firstOrderDate).getDay() : 0;
-        if (dayOfWeek === 0 || dayOfWeek === 6) {
-            disc = disc * 1.05; // 5% de bonus sur la remise
+        if (WEEKEND_DAYS.includes(dayOfWeek)) {
+            disc = disc * WEEKEND_DISCOUNT_BONUS;
         }
 
-        // Calcul remise fidélité (duplication #2)
+        // Calcul remise fidélité (tri descendant, premier match gagne)
         let loyaltyDiscount = 0.0;
         const pts = loyaltyPoints[cid] || 0;
-        if (pts > 100) {
-            loyaltyDiscount = Math.min(pts * 0.1, 50.0);
-        }
-        if (pts > 500) {
-            loyaltyDiscount = Math.min(pts * 0.15, 100.0);
+        const loyaltyTier = LOYALTY_DISCOUNT_TIERS.find(tier => pts > tier.threshold);
+        if (loyaltyTier) {
+            loyaltyDiscount = Math.min(pts * loyaltyTier.rate, loyaltyTier.cap);
         }
 
         // Plafond de remise global (règle cachée)
@@ -172,46 +193,40 @@ function run(): string {
         const weight = totalsByCustomer[cid].weight;
 
         if (sub < FREE_SHIPPING_THRESHOLD) {
-            const shipZone = shippingZones[zone] || { base: 5.0, per_kg: 0.5 };
+            const shipZone = shippingZones[zone] || { base: DEFAULT_SHIPPING_FEE, per_kg: DEFAULT_SHIPPING_PER_KG };
             const baseShip = shipZone.base;
 
-            if (weight > 10) {
-                ship = baseShip + (weight - 10) * shipZone.per_kg;
-            } else if (weight > 5) {
-                // Palier intermédiaire (règle cachée)
-                ship = baseShip + (weight - 5) * 0.3;
+            if (weight > HIGH_WEIGHT_THRESHOLD) {
+                ship = baseShip + (weight - HIGH_WEIGHT_THRESHOLD) * shipZone.per_kg;
+            } else if (weight > MID_WEIGHT_THRESHOLD) {
+                ship = baseShip + (weight - MID_WEIGHT_THRESHOLD) * MID_WEIGHT_SURCHARGE_PER_KG;
             } else {
                 ship = baseShip;
             }
 
             // Majoration pour livraison en zone éloignée
-            if (zone === 'ZONE3' || zone === 'ZONE4') {
-                ship = ship * 1.2;
+            if (REMOTE_ZONES.includes(zone)) {
+                ship = ship * REMOTE_ZONE_SURCHARGE;
             }
         } else {
             // Livraison gratuite mais frais de manutention pour poids élevé
-            if (weight > 20) {
-                ship = (weight - 20) * 0.25;
+            if (weight > HEAVY_WEIGHT_THRESHOLD) {
+                ship = (weight - HEAVY_WEIGHT_THRESHOLD) * HEAVY_WEIGHT_SURCHARGE_PER_KG;
             }
         }
 
-        // Frais de gestion (magic number + condition cachée)
+        // Frais de gestion (paliers sur nombre d'items)
         let handling = 0.0;
         const itemCount = totalsByCustomer[cid].items.length;
-        if (itemCount > 10) {
+        if (itemCount > HANDLING_ITEM_THRESHOLD) {
             handling = HANDLING_FEE;
         }
-        if (itemCount > 20) {
-            handling = HANDLING_FEE * 2; // double pour très grosses commandes
+        if (itemCount > HANDLING_DOUBLE_THRESHOLD) {
+            handling = HANDLING_FEE * 2;
         }
 
-        // Conversion devise (règle cachée pour non-EUR)
-        let currencyRate = 1.0;
-        if (currency === 'USD') {
-            currencyRate = 1.1;
-        } else if (currency === 'GBP') {
-            currencyRate = 0.85;
-        }
+        // Conversion devise (fallback sur devise par défaut si inconnue)
+        const currencyRate = CURRENCY_RATES[currency] ?? CURRENCY_RATES[DEFAULT_CURRENCY];
 
         const total = Math.round((taxable + tax + ship + handling) * currencyRate * 100) / 100;
         grandTotal += total;

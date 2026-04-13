@@ -2,3 +2,4 @@
 /bin
 /legacy/expected
 /dist
+/src/output.json
