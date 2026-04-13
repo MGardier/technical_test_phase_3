@@ -15,7 +15,6 @@ import {
     HEAVY_WEIGHT_SURCHARGE_PER_KG,
     HEAVY_WEIGHT_THRESHOLD,
     HIGH_WEIGHT_THRESHOLD,
-    LOYALTY_DISCOUNT_TIERS,
     MAX_DISCOUNT,
     MID_WEIGHT_SURCHARGE_PER_KG,
     MID_WEIGHT_THRESHOLD,
@@ -32,6 +31,7 @@ import { loadCsvData } from './csv/loadCsvData';
 
 import { Currency, CustomerLevel, ShippingZoneId } from './types';
 import { calculatingLoyaltyPoints } from './business/pricing/loyaltyPoints';
+import { calculatingLoyaltyDiscount } from './business/pricing/loyaltyDiscount';
 
 
 
@@ -132,13 +132,8 @@ function run(): string {
             disc = disc * WEEKEND_DISCOUNT_BONUS;
         }
 
-        // Calcul remise fidélité (tri descendant, premier match gagne)
-        let loyaltyDiscount = 0.0;
         const pts = loyaltyPoints[cid] || 0;
-        const loyaltyTier = LOYALTY_DISCOUNT_TIERS.find(tier => pts > tier.threshold);
-        if (loyaltyTier) {
-            loyaltyDiscount = Math.min(pts * loyaltyTier.rate, loyaltyTier.cap);
-        }
+        let loyaltyDiscount = calculatingLoyaltyDiscount(pts);
 
         // Plafond de remise global (règle cachée)
         let totalDiscount = disc + loyaltyDiscount;
