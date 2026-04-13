@@ -17,7 +17,7 @@ import {
     PromotionType,
     ShippingZone,
     ShippingZoneId,
-} from '../types/types';
+} from '../types';
 
 
 export function mapCustomer(columns: string[]): Customer {

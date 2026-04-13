@@ -1,4 +1,4 @@
-import { CsvRowMapper } from '../types/types';
+import { CsvRowMapper } from '../types';
 import * as fs from 'fs';
 
 

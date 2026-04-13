@@ -30,7 +30,7 @@ import {
     WEEKEND_DISCOUNT_BONUS,
 } from './constants';
 import { loadCsvData } from './csv/loadCsvData';
-import { Currency, CustomerLevel, ShippingZoneId } from './types/types';
+import { Currency, CustomerLevel, ShippingZoneId } from './types';
 
 
 

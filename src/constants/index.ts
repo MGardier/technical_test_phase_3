@@ -1,4 +1,4 @@
-import { Currency, CurrencyRates, CustomerLevel, ShippingZoneId } from "../types/types";
+import { Currency, CurrencyRates, CustomerLevel, ShippingZoneId } from "../types";
 
 // --- Tax ---
 export const TAX_RATE = 0.2;

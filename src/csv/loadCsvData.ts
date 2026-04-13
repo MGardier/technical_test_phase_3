@@ -1,6 +1,6 @@
 import * as path from 'path';
-import { CsvData } from '../types/types';
-import { toRecord } from '../utils/utils';
+import { CsvData } from '../types';
+import { toRecord } from '../utils';
 
 import {
     mapCustomer,
