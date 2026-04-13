@@ -9,7 +9,7 @@ import {
     TPromotionType,
     TShippingZone,
     TShippingZoneId,
-} from "../types";
+} from "../types/types";
 
 export function mapCustomer(columns: string[]): TCustomer {
     return {

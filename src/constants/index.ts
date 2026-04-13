@@ -1,4 +1,4 @@
-import { TCurrencyRates } from "../types";
+import { TCurrencyRates } from "../types/types";
 
 // --- Tax ---
 export const TAX_RATE = 0.2;

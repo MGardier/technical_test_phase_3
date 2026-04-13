@@ -2,7 +2,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { FREE_SHIPPING_THRESHOLD, HANDLING_FEE, LOYALTY_RATIO, MAX_DISCOUNT, TAX_RATE } from './constants';
 import { toRecord, parseCsv } from './utils/utils';
-import { mapCustomer, mapOrder, mapProduct, mapPromotion, mapShippingZone } from './mapper/mapper';
+import { mapCustomer, mapOrder, mapProduct, mapPromotion, mapShippingZone } from './mapper/csv.mapper';
 
 
 

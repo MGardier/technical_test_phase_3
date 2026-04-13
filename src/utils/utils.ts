@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-import { TCsvRowMapper } from '../types';
+import { TCsvRowMapper } from '../types/types';
 
 
 
