@@ -16,7 +16,6 @@ import {
     HEAVY_WEIGHT_THRESHOLD,
     HIGH_WEIGHT_THRESHOLD,
     LOYALTY_DISCOUNT_TIERS,
-    LOYALTY_RATIO,
     MAX_DISCOUNT,
     MID_WEIGHT_SURCHARGE_PER_KG,
     MID_WEIGHT_THRESHOLD,
@@ -30,7 +29,9 @@ import {
     WEEKEND_DISCOUNT_BONUS,
 } from './constants';
 import { loadCsvData } from './csv/loadCsvData';
+
 import { Currency, CustomerLevel, ShippingZoneId } from './types';
+import { calculatingLoyaltyPoints } from './business/pricing/loyaltyPoints';
 
 
 
@@ -42,18 +43,7 @@ function run(): string {
         path.join(__dirname, 'data'),
     );
 
-
-
-    // Calcul des points de fidélité (première duplication)
-    const loyaltyPoints: Record<string, number> = {};
-    for (const o of orders) {
-        const cid = o.customer_id;
-        if (!loyaltyPoints[cid]) {
-            loyaltyPoints[cid] = 0;
-        }
-        // Calcul basé sur le prix de commande
-        loyaltyPoints[cid] += o.qty * o.unit_price * LOYALTY_RATIO;
-    }
+    const loyaltyPoints = calculatingLoyaltyPoints(orders);
 
     // Groupement par client (logique métier mélangée avec aggregation)
     const totalsByCustomer: Record<string, any> = {};
