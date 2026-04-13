@@ -18,9 +18,9 @@ export const HIGH_WEIGHT_THRESHOLD = 10;
 // --- Discounts ---
 export const VOLUME_DISCOUNT_TIERS = [
   { threshold: 1000, rate: 0.20, requiresPremium: true },
-  { threshold: 500, rate: 0.15 },
-  { threshold: 100, rate: 0.10 },
-  { threshold: 50, rate: 0.05 },
+  { threshold: 500, rate: 0.15, requiresPremium: false },
+  { threshold: 100, rate: 0.10, requiresPremium: false },
+  { threshold: 50, rate: 0.05, requiresPremium: false },
 ] as const;
 
 export const MAX_DISCOUNT = 200;

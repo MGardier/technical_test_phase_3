@@ -23,7 +23,6 @@ import {
     REMOTE_ZONES,
     REMOTE_ZONE_SURCHARGE,
     TAX_RATE,
-    VOLUME_DISCOUNT_TIERS,
     WEEKEND_DAYS,
     WEEKEND_DISCOUNT_BONUS,
 } from './constants';
@@ -32,6 +31,7 @@ import { loadCsvData } from './csv/loadCsvData';
 import { Currency, CustomerLevel, ShippingZoneId } from './types';
 import { calculatingLoyaltyPoints } from './business/pricing/loyaltyPoints';
 import { calculatingLoyaltyDiscount } from './business/pricing/loyaltyDiscount';
+import { calculatingVolumeDiscount } from './business/pricing/volumeDiscount';
 
 
 
@@ -117,14 +117,8 @@ function run(): string {
 
         const sub = totalsByCustomer[cid].subtotal;
 
-        // Remise par paliers (tri descendant, premier match gagne)
-        let disc = 0.0;
-        const volumeTier = VOLUME_DISCOUNT_TIERS.find(
-            tier => sub > tier.threshold && (!('requiresPremium' in tier && tier.requiresPremium) || level === 'PREMIUM'),
-        );
-        if (volumeTier) {
-            disc = sub * volumeTier.rate;
-        }
+        // Remise par paliers 
+        let disc = calculatingVolumeDiscount(sub, level);
 
         // Bonus weekend (règle cachée basée sur la date)
         const firstOrderDate = totalsByCustomer[cid].items[0]?.date || '';
