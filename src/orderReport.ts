@@ -43,6 +43,7 @@ function run(): string {
         path.join(__dirname, 'data'),
     );
 
+
     const loyaltyPoints = calculatingLoyaltyPoints(orders);
 
     // Groupement par client (logique métier mélangée avec aggregation)
@@ -132,6 +133,7 @@ function run(): string {
             disc = disc * WEEKEND_DISCOUNT_BONUS;
         }
 
+        // Calcul des points de fidélité
         const pts = loyaltyPoints[cid] || 0;
         let loyaltyDiscount = calculatingLoyaltyDiscount(pts);
 
