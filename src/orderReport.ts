@@ -1,14 +1,8 @@
 import * as fs from 'fs';
 import * as path from 'path';
+import { FREE_SHIPPING_THRESHOLD, HANDLING_FEE, LOYALTY_RATIO, MAX_DISCOUNT, TAX_RATE } from './constants';
 
-// Constantes globales mal organisées
-const TAX = 0.2;
-const SHIPPING_LIMIT = 50;
-const SHIP = 5.0;
-const PREMIUM_THRESHOLD = 1000;
-const LOYALTY_RATIO = 0.01;
-const HANDLING_FEE = 2.5;
-const MAX_DISCOUNT = 200;
+
 
 // Types minimaux (manque de typage propre)
 type Customer = any;
@@ -260,14 +254,14 @@ function run(): string {
         }
 
         if (allTaxable) {
-            tax = Math.round(taxable * TAX * 100) / 100; // Arrondi à 2 décimales
+            tax = Math.round(taxable * TAX_RATE * 100) / 100; // Arrondi à 2 décimales
         } else {
             // Calcul taxe par ligne (plus complexe)
             for (const item of totalsByCustomer[cid].items) {
                 const prod = products[item.product_id];
                 if (prod && prod.taxable !== false) {
                     const itemTotal = item.qty * (prod.price || item.unit_price);
-                    tax += itemTotal * TAX;
+                    tax += itemTotal * TAX_RATE;
                 }
             }
             tax = Math.round(tax * 100) / 100;
@@ -277,7 +271,7 @@ function run(): string {
         let ship = 0.0;
         const weight = totalsByCustomer[cid].weight;
 
-        if (sub < SHIPPING_LIMIT) {
+        if (sub < FREE_SHIPPING_THRESHOLD) {
             const shipZone = shippingZones[zone] || { base: 5.0, per_kg: 0.5 };
             const baseShip = shipZone.base;
 
