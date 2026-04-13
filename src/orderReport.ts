@@ -23,8 +23,6 @@ import {
     REMOTE_ZONES,
     REMOTE_ZONE_SURCHARGE,
     TAX_RATE,
-    WEEKEND_DAYS,
-    WEEKEND_DISCOUNT_BONUS,
 } from './constants';
 import { loadCsvData } from './csv/loadCsvData';
 
@@ -32,6 +30,7 @@ import { Currency, CustomerLevel, ShippingZoneId } from './types';
 import { calculatingLoyaltyPoints } from './business/pricing/loyaltyPoints';
 import { calculatingLoyaltyDiscount } from './business/pricing/loyaltyDiscount';
 import { calculatingVolumeDiscount } from './business/pricing/volumeDiscount';
+import { calculatingWeekendBonus } from './business/pricing/weekendBonus';
 
 
 
@@ -121,11 +120,7 @@ function run(): string {
         let disc = calculatingVolumeDiscount(sub, level);
 
         // Bonus weekend (règle cachée basée sur la date)
-        const firstOrderDate = totalsByCustomer[cid].items[0]?.date || '';
-        const dayOfWeek = firstOrderDate ? new Date(firstOrderDate).getDay() : 0;
-        if (WEEKEND_DAYS.includes(dayOfWeek)) {
-            disc = disc * WEEKEND_DISCOUNT_BONUS;
-        }
+        disc = calculatingWeekendBonus(disc, totalsByCustomer[cid].items[0]?.date || '');
 
         // Calcul des points de fidélité
         const pts = loyaltyPoints[cid] || 0;
