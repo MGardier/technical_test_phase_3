@@ -43,7 +43,7 @@ export function mapOrder(columns: string[]): TOrder {
         qty: parseInt(columns[3]),
         unit_price: parseFloat(columns[4]),
         date: columns[5],
-        promo_code: columns[6] || '',
+        promo_code: columns[6] || undefined,
         time: columns[7] || '12:00',
     };
 }

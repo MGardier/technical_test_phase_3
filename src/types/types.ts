@@ -32,7 +32,7 @@ export type TOrder = {
   qty: number;
   unit_price: number;
   date: string;
-  promo_code: string;
+  promo_code?: string;
   time: string;
 };
 
