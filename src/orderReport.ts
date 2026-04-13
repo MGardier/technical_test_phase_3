@@ -57,10 +57,10 @@ function run(): string {
             const promo = promotions[promoCode];
             if (promo.active) {
                 if (promo.type === 'PERCENTAGE') {
-                    discountRate = parseFloat(promo.value) / 100;
+                    discountRate = promo.value / 100;
                 } else if (promo.type === 'FIXED') {
                     // Bug intentionnel: appliqué par ligne au lieu de global
-                    fixedDiscount = parseFloat(promo.value);
+                    fixedDiscount = promo.value;
                 }
             }
         }

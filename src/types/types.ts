@@ -45,7 +45,7 @@ export type TShippingZone = {
 export type TPromotion = {
   code: string;
   type: TPromotionType;
-  value: string;
+  value: number;
   active: boolean;
 };
 

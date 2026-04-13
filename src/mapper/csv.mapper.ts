@@ -60,7 +60,7 @@ export function mapPromotion(columns: string[]): TPromotion {
     return {
         code: columns[0],
         type: columns[1] as TPromotionType,
-        value: columns[2],
+        value: parseFloat(columns[2]),
         active: columns[3] !== 'false',
     };
 }
