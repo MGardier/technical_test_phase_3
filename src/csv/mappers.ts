@@ -9,7 +9,8 @@ import {
     TPromotionType,
     TShippingZone,
     TShippingZoneId,
-} from "../types/types";
+} from '../types/types';
+
 
 export function mapCustomer(columns: string[]): TCustomer {
     return {
@@ -21,7 +22,6 @@ export function mapCustomer(columns: string[]): TCustomer {
     };
 }
 
-
 export function mapProduct(columns: string[]): TProduct {
     return {
         id: columns[0],
@@ -32,8 +32,6 @@ export function mapProduct(columns: string[]): TProduct {
         taxable: columns[5] === 'true',
     };
 }
-
-
 
 export function mapOrder(columns: string[]): TOrder {
     return {

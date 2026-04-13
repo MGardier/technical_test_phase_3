@@ -53,6 +53,16 @@ export type TPromotion = {
 
 export type TCurrencyRates = Record<TCurrency, number>;
 
+// --- CSV aggregate ---
+
+export type TCsvData = {
+  customers: Record<string, TCustomer>;
+  products: Record<string, TProduct>;
+  shippingZones: Record<string, TShippingZone>;
+  promotions: Record<string, TPromotion>;
+  orders: TOrder[];
+};
+
 // --- Utils ---
 
 export type TCsvRowMapper<T> = (parts: string[]) => T;

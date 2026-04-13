@@ -1,30 +1,17 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { FREE_SHIPPING_THRESHOLD, HANDLING_FEE, LOYALTY_RATIO, MAX_DISCOUNT, TAX_RATE } from './constants';
-import { toRecord, parseCsv } from './utils/utils';
-import { mapCustomer, mapOrder, mapProduct, mapPromotion, mapShippingZone } from './mapper/csv.mapper';
-
-
-
+import { loadCsvData } from './csv/loadCsvData';
 
 
 
 // Fonction principale qui fait TOUT
 function run(): string {
-    const base = __dirname;
-    const custPath = path.join(base, 'data', 'customers.csv');
-    const ordPath = path.join(base, 'data', 'orders.csv');
-    const prodPath = path.join(base, 'data', 'products.csv');
-    const shipPath = path.join(base, 'data', 'shipping_zones.csv');
-    const promoPath = path.join(base, 'data', 'promotions.csv');
 
     
-
-    const customers = toRecord(parseCsv(custPath, mapCustomer), c => c.id);
-    const products = toRecord(parseCsv(prodPath, mapProduct), p => p.id);
-    const shippingZones = toRecord(parseCsv(shipPath, mapShippingZone), z => z.zone);
-    const promotions = toRecord(parseCsv(promoPath, mapPromotion, true), p => p.code);
-    const orders = parseCsv(ordPath, mapOrder);
+    const { customers, products, shippingZones, promotions, orders } = loadCsvData(
+        path.join(__dirname, 'data'),
+    );
 
 
 
@@ -268,7 +255,7 @@ function run(): string {
     console.log(result);
 
     // Export JSON surprise
-    const outputPath = path.join(base, 'output.json');
+    const outputPath = path.join(__dirname, 'output.json');
     fs.writeFileSync(outputPath, JSON.stringify(jsonData, null, 2));
 
     return result;
