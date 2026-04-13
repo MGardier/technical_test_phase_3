@@ -1,31 +1,31 @@
 // --- CSV value unions ---
 
-export type TCustomerLevel = 'BASIC' | 'PREMIUM';
-export type TCurrency = 'EUR' | 'USD' | 'GBP';
-export type TShippingZoneId = 'ZONE1' | 'ZONE2' | 'ZONE3' | 'ZONE4';
-export type TProductCategory = 'Electronics' | 'Furniture' | 'Stationery' | 'Accessories';
-export type TPromotionType = 'PERCENTAGE' | 'FIXED';
+export type CustomerLevel = 'BASIC' | 'PREMIUM';
+export type Currency = 'EUR' | 'USD' | 'GBP';
+export type ShippingZoneId = 'ZONE1' | 'ZONE2' | 'ZONE3' | 'ZONE4';
+export type ProductCategory = 'Electronics' | 'Furniture' | 'Stationery' | 'Accessories';
+export type PromotionType = 'PERCENTAGE' | 'FIXED';
 
 // --- CSV row objects ---
 
-export type TCustomer = {
+export type Customer = {
   id: string;
   name: string;
-  level: TCustomerLevel;
-  shipping_zone: TShippingZoneId;
-  currency: TCurrency;
+  level: CustomerLevel;
+  shipping_zone: ShippingZoneId;
+  currency: Currency;
 };
 
-export type TProduct = {
+export type Product = {
   id: string;
   name: string;
-  category: TProductCategory;
+  category: ProductCategory;
   price: number;
   weight: number;
   taxable: boolean;
 };
 
-export type TOrder = {
+export type Order = {
   id: string;
   customer_id: string;
   product_id: string;
@@ -36,33 +36,33 @@ export type TOrder = {
   time: string;
 };
 
-export type TShippingZone = {
-  zone: TShippingZoneId;
+export type ShippingZone = {
+  zone: ShippingZoneId;
   base: number;
   per_kg: number;
 };
 
-export type TPromotion = {
+export type Promotion = {
   code: string;
-  type: TPromotionType;
+  type: PromotionType;
   value: number;
   active: boolean;
 };
 
 // --- Constants ---
 
-export type TCurrencyRates = Record<TCurrency, number>;
+export type CurrencyRates = Record<Currency, number>;
 
 // --- CSV aggregate ---
 
-export type TCsvData = {
-  customers: Record<string, TCustomer>;
-  products: Record<string, TProduct>;
-  shippingZones: Record<string, TShippingZone>;
-  promotions: Record<string, TPromotion>;
-  orders: TOrder[];
+export type CsvData = {
+  customers: Record<string, Customer>;
+  products: Record<string, Product>;
+  shippingZones: Record<string, ShippingZone>;
+  promotions: Record<string, Promotion>;
+  orders: Order[];
 };
 
 // --- Utils ---
 
-export type TCsvRowMapper<T> = (parts: string[]) => T;
+export type CsvRowMapper<T> = (parts: string[]) => T;

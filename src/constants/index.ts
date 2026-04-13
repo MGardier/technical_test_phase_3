@@ -1,4 +1,4 @@
-import { TCurrencyRates } from "../types/types";
+import { CurrencyRates } from "../types/types";
 
 // --- Tax ---
 export const TAX_RATE = 0.2;
@@ -36,7 +36,7 @@ export const HANDLING_ITEM_THRESHOLD = 10;
 export const HANDLING_DOUBLE_THRESHOLD = 20;
 
 // --- Currency ---
-export const CURRENCY_RATES: TCurrencyRates = {
+export const CURRENCY_RATES: CurrencyRates = {
   EUR: 1.0,
   USD: 1.1,
   GBP: 0.85,

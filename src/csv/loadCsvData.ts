@@ -1,5 +1,5 @@
 import * as path from 'path';
-import { TCsvData } from '../types/types';
+import { CsvData } from '../types/types';
 import { toRecord } from '../utils/utils';
 
 import {
@@ -12,7 +12,7 @@ import {
 import { parseCsv } from './parseCsv';
 
 
-export function loadCsvData(dataDir: string): TCsvData {
+export function loadCsvData(dataDir: string): CsvData {
     const resolve = (filename: string) => path.join(dataDir, filename);
 
     return {

@@ -1,10 +1,10 @@
-import { TCsvRowMapper } from '../types/types';
+import { CsvRowMapper } from '../types/types';
 import * as fs from 'fs';
 
 
 export function parseCsv<T>(
     filePath : string ,
-    mapRow :TCsvRowMapper<T>,
+    mapRow :CsvRowMapper<T>,
     isOptional : boolean = false  
 ): T[] {
     
