@@ -1,5 +1,5 @@
 import { TimeString } from "../types/primitives";
-import { EquipmentType, Priority, SampleType, TechnicianSpeciality } from "./enum";
+import { EquipmentType, Priority, SampleType, TechnicianSpeciality } from "./enums";
 
 
 export interface SampleDTO {

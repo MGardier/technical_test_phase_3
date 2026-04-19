@@ -1,4 +1,4 @@
-import { Priority } from "./enum";
+import { Priority } from "./enums";
 import { DurationMinutes, TimeString }  from "../types/primitives";
 
 export interface ScheduleEntryDTO {
