@@ -5,7 +5,7 @@ import { DurationMinutes, TimeString } from "../../types/primitives";
  * Immutable value object: any operation returns a new instance.
  */
 export class TimeOfDay {
-  private static readonly FORMAT = /^\d{2}:\d{2}$/;
+  private static readonly FORMAT = /^(\d{2}):(\d{2})$/;
   private static readonly MINUTES_PER_HOUR = 60;
 
 
@@ -16,6 +16,7 @@ export class TimeOfDay {
   }
 
   static fromString(hhmm: TimeString): TimeOfDay {
+    
     const match = TimeOfDay.FORMAT.exec(hhmm);
     if (!match) throw new Error(`Invalid time format "${hhmm}": expected "HH:MM".`);
 
