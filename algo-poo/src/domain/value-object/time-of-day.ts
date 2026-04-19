@@ -1,8 +1,8 @@
 import { DurationMinutes, TimeString } from "../../types/primitives";
 
 /**
- * Instant précis dans une journée ("09:30"), représenté en minutes depuis minuit.
- * Value object immuable : toute opération retourne une nouvelle instance.
+ * A specific time of day (‘09:30’), expressed in minutes since midnight.
+ * Immutable value object: any operation returns a new instance.
  */
 export class TimeOfDay {
   private static readonly FORMAT = /^\d{2}:\d{2}$/;
