@@ -39,6 +39,8 @@ export type TimeString = `${number}:${number}`;
 /** Duration expressed in minutes.*/
 export type DurationMinutes = number;
 
+
+
 // ============================================
 //            INPUT DTO 
 // ============================================
@@ -97,7 +99,18 @@ export interface MetricsDTO {
   readonly conflicts: number;
 }
 
+export type UnscheduleReason =
+  "NO_COMPATIBLE_TECHNICIAN"
+  | "NO_COMPATIBLE_EQUIPMENT"
+  | "NO_RESOURCE_AVAILABLE_IN_HOURS"
+
+export interface UnscheduledSampleDTO {
+  sampleId: string;
+  reason:UnscheduleReason;
+}
+
 export interface PlanifyLabOutputDTO {
   readonly schedule: ReadonlyArray<ScheduleEntryDTO>;
-  readonly metrics: MetricsDTO;
+  readonly metrics: Readonly<MetricsDTO>;
+  readonly unschedule: ReadonlyArray<ScheduleEntryDTO>
 }
