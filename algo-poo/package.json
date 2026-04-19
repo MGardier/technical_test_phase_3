@@ -2,9 +2,16 @@
   "name": "algo-poo",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/planify-lab.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc",
+    "start": "node dist/planify-lab.js",
+    "dev": "ts-node src/planify-lab.ts"
+  },
+    "devDependencies": {
+    "@types/node": "^20.0.0",
+    "ts-node": "^10.9.0",
+    "typescript": "^5.0.0"
   },
   "keywords": [],
   "author": "",
