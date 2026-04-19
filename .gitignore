@@ -1,5 +1,9 @@
 refacto/node_modules
-/bin
-/legacy/expected
-/dist
-/src/output.json
+refacto/bin
+refacto/legacy/expected
+refacto/dist
+refacto/src/output.json
+
+algo-poo/node_modules
+algo-poo/bin
+algo-poo/dist
