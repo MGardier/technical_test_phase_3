@@ -19,9 +19,18 @@ export const TechnicianSpeciality = {
 export type TechnicianSpeciality =
   typeof TechnicianSpeciality[keyof typeof TechnicianSpeciality];
 
-  
+
 export const EquipmentType = {
   ...SampleType,
 } as const;
 export type EquipmentType =
   typeof EquipmentType[keyof typeof EquipmentType];
+
+
+export const PriorityRank: Record<Priority, number> = {
+  STAT: 0,
+  URGENT: 1,
+  ROUTINE: 2,
+};
+export type PriorityRank =
+  typeof PriorityRank[keyof typeof PriorityRank];
