@@ -14,12 +14,10 @@ export class Equipment {
     name: string,
     type: EquipmentType,
 
-
   ) {
     this.id = id;
     this.name = name;
     this.type = type;
-
   }
 
   static fromDTO(dto: EquipmentDTO): Equipment {
@@ -27,7 +25,6 @@ export class Equipment {
       dto.id,
       dto.name,
       dto.type,
-
     );
   }
 

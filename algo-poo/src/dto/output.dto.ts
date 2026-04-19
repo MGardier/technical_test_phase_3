@@ -1,5 +1,5 @@
-import { Priority } from "./enums";
-import { DurationMinutes, TimeString }  from "../types/primitives";
+import { Priority, UnscheduledReason } from "./enums";
+import { DurationMinutes, TimeString } from "../types/primitives";
 
 export interface ScheduleEntryDTO {
   readonly sampleId: string;
@@ -20,18 +20,13 @@ export interface MetricsDTO {
   readonly conflicts: number;
 }
 
-export type UnscheduleReason =
-  "NO_COMPATIBLE_TECHNICIAN"
-  | "NO_COMPATIBLE_EQUIPMENT"
-  | "NO_RESOURCE_AVAILABLE_IN_HOURS"
-
 export interface UnscheduledSampleDTO {
-  sampleId: string;
-  reason:UnscheduleReason;
+  readonly sampleId: string;
+  readonly reason: UnscheduledReason;
 }
 
 export interface PlanifyLabOutputDTO {
   readonly schedule: ReadonlyArray<ScheduleEntryDTO>;
   readonly metrics: Readonly<MetricsDTO>;
-  readonly unschedule: ReadonlyArray<ScheduleEntryDTO>
+  readonly unscheduledSamples: ReadonlyArray<UnscheduledSampleDTO>;
 }

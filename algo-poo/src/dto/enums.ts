@@ -34,3 +34,12 @@ export const PriorityRank: Record<Priority, number> = {
 };
 export type PriorityRank =
   typeof PriorityRank[keyof typeof PriorityRank];
+
+
+export const UnscheduledReason = {
+  NO_COMPATIBLE_TECHNICIAN: "NO_COMPATIBLE_TECHNICIAN",
+  NO_COMPATIBLE_EQUIPMENT: "NO_COMPATIBLE_EQUIPMENT",
+  NO_RESOURCE_AVAILABLE_IN_HOURS: "NO_RESOURCE_AVAILABLE_IN_HOURS",
+} as const;
+export type UnscheduledReason =
+  typeof UnscheduledReason[keyof typeof UnscheduledReason];

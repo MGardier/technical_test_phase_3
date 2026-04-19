@@ -29,10 +29,10 @@ export class TimeOfDay {
     return new TimeOfDay(hours * TimeOfDay.MINUTES_PER_HOUR + minutes);
   }
 
-  toString(): string {
+  toString(): TimeString {
     const hours = Math.floor(this.minutes / TimeOfDay.MINUTES_PER_HOUR);
     const minutes = this.minutes % TimeOfDay.MINUTES_PER_HOUR;
-    return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}`;
+    return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}` as TimeString;
   }
 
   isBefore(other: TimeOfDay): boolean {
