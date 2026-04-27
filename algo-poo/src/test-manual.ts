@@ -40,6 +40,7 @@ const example1: PlanifyLabInputDTO = {
       name: "Analyseur Sang A",
       type: "BLOOD",
       available: true,
+      maintenanceWindow: { start: "06:00", end: "07:00" },
     },
   ],
 };
@@ -81,6 +82,7 @@ const example2: PlanifyLabInputDTO = {
       name: "Equip 1",
       type: "BLOOD",
       available: true,
+      maintenanceWindow: { start: "06:00", end: "07:00" },
     },
   ],
 };
@@ -139,12 +141,14 @@ const example3: PlanifyLabInputDTO = {
       name: "Equip Blood",
       type: "BLOOD",
       available: true,
+      maintenanceWindow: { start: "06:00", end: "07:00" },
     },
     {
       id: "E002",
       name: "Equip Urine",
       type: "URINE",
       available: true,
+      maintenanceWindow: { start: "06:00", end: "07:00" },
     },
   ],
 };
@@ -168,7 +172,30 @@ const caseV2_1: PlanifyLabInputDTO = {
     },
   ],
   equipment: [
-    { id: "E1", name: "Equip", type: "BLOOD", available: true },
+    { id: "E1", name: "Equip", type: "BLOOD", available: true, maintenanceWindow: { start: "06:00", end: "07:00" } },
+  ],
+};
+
+// ==================== CASE V2-2 ====================
+// Sample blocked by equipment maintenance, rescheduled after
+// Expected: S1 starts at 07:00, ends at 08:00 (rebound after maintenance window)
+const caseV2_2: PlanifyLabInputDTO = {
+  samples: [
+    { id: "S1", type: "BLOOD", priority: "URGENT", analysisTime: 60, arrivalTime: "06:30", patientId: "P1" },
+  ],
+  technicians: [
+    {
+      id: "T1",
+      name: "Alice",
+      speciality: "BLOOD",
+      efficiency: 1.0,
+      startTime: "06:00",
+      endTime: "17:00",
+      lunchBreak: { start: "12:00", end: "13:00" },
+    },
+  ],
+  equipment: [
+    { id: "E1", name: "Equip", type: "BLOOD", available: true, maintenanceWindow: { start: "06:00", end: "07:00" } },
   ],
 };
 
@@ -176,3 +203,4 @@ runTest("EXAMPLE 1 - Single URGENT sample", example1);
 runTest("EXAMPLE 2 - STAT priority over URGENT", example2);
 runTest("EXAMPLE 3 - Parallel processing", example3);
 runTest("CASE V2-1 - Sample blocked by lunch break, rescheduled after", caseV2_1);
+runTest("CASE V2-2 - Sample blocked by maintenance, rebound after", caseV2_2);
