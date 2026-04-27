@@ -5,8 +5,7 @@
   "main": "dist/planify-lab.js",
   "scripts": {
     "build": "tsc",
-    "start": "node dist/planify-lab.js",
-    "dev": "ts-node src/planify-lab.ts"
+    "dev": "ts-node src/test-manual.ts"
   },
     "devDependencies": {
     "@types/node": "^20.0.0",
