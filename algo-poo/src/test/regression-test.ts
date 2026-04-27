@@ -46,7 +46,7 @@ runTest(
       { id: "T1", name: "Alice",efficiency: 1.0, speciality: "BLOOD", startTime: "08:00", endTime: "17:00", lunchBreak: { start: "12:00", end: "13:00" } },
     ],
     equipment: [
-      { id: "E1", name: "Blood Analyzer", type: "BLOOD", available: true },
+      { id: "E1", name: "Blood Analyzer", type: "BLOOD", available: true, maintenanceWindow: { start: "06:00", end: "07:00" } },
     ],
   },
   {
@@ -72,7 +72,7 @@ runTest(
       { id: "T1", name: "Alice", efficiency: 1.0, speciality: "BLOOD", startTime: "08:00", endTime: "17:00", lunchBreak: { start: "12:00", end: "13:00" } },
     ],
     equipment: [
-      { id: "E1", name: "Blood Analyzer", type: "BLOOD", available: true },
+      { id: "E1", name: "Blood Analyzer", type: "BLOOD", available: true, maintenanceWindow: { start: "06:00", end: "07:00" } },
     ],
   },
   {
@@ -100,8 +100,8 @@ runTest(
       { id: "T2", name: "Bob",efficiency: 1.0, speciality: "URINE", startTime: "08:00", endTime: "17:00", lunchBreak: { start: "13:00", end: "14:00" } },
     ],
     equipment: [
-      { id: "E1", name: "Blood Analyzer", type: "BLOOD", available: true },
-      { id: "E2", name: "Urine Analyzer", type: "URINE", available: true },
+      { id: "E1", name: "Blood Analyzer", type: "BLOOD", available: true, maintenanceWindow: { start: "06:00", end: "07:00" } },
+      { id: "E2", name: "Urine Analyzer", type: "URINE", available: true, maintenanceWindow: { start: "06:00", end: "07:00" } },
     ],
   },
   {
@@ -127,8 +127,8 @@ runTest(
       { id: "T1", name: "Alice", efficiency: 1.0, speciality: "BLOOD", startTime: "08:00", endTime: "17:00", lunchBreak: { start: "12:00", end: "13:00" } },
     ],
     equipment: [
-      { id: "E1", name: "Broken", type: "BLOOD", available: false },
-      { id: "E2", name: "Working", type: "BLOOD", available: true },
+      { id: "E1", name: "Broken", type: "BLOOD", available: false, maintenanceWindow: { start: "06:00", end: "07:00" } },
+      { id: "E2", name: "Working", type: "BLOOD", available: true, maintenanceWindow: { start: "06:00", end: "07:00" } },
     ],
   },
   {
@@ -153,7 +153,7 @@ runTest(
       { id: "T1", name: "Alice",efficiency: 1.0, speciality: "BLOOD", startTime: "08:00", endTime: "17:00", lunchBreak: { start: "12:00", end: "13:00" } },
     ],
     equipment: [
-      { id: "E1", name: "Tissue Analyzer", type: "TISSUE", available: true },
+      { id: "E1", name: "Tissue Analyzer", type: "TISSUE", available: true, maintenanceWindow: { start: "06:00", end: "07:00" } },
     ],
   },
   {
@@ -178,7 +178,7 @@ runTest(
       { id: "T1", name: "Alice", efficiency: 1.0, speciality: "BLOOD", startTime: "08:00", endTime: "17:00", lunchBreak: { start: "12:00", end: "13:00" } },
     ],
     equipment: [
-      { id: "E1", name: "Blood Analyzer", type: "BLOOD", available: true },
+      { id: "E1", name: "Blood Analyzer", type: "BLOOD", available: true, maintenanceWindow: { start: "06:00", end: "07:00" } },
     ],
   },
   {
