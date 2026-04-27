@@ -8,6 +8,7 @@ import { TimeOfDay } from "../domain/value-object/time-of-day";
 import { TimeSlot } from "../domain/value-object/time-slot";
 import { UnscheduledReason } from "../dto/enums";
 import { AssignmentResult, BestAssignment, PlanResult } from "../types";
+import { DurationMinutes } from "../types/primitives";
 
 export class LabPlanner {
   private static readonly DAY_START = TimeOfDay.fromString("00:00");
@@ -83,9 +84,9 @@ export class LabPlanner {
         );
 
         const effectiveDuration = sample.effectiveDurationFor(tech);
-        const validStart = tech.earliestValidStartFrom(naturalStart, effectiveDuration);
 
-        //If tech can't handle it we search another one
+        //Iterate until we found match between tech & equip
+        const validStart = this.findCommonValidStart(tech, equip, naturalStart, effectiveDuration);
         if (validStart === null) continue;
 
         //We check if an new assignement can be better than the current
@@ -134,5 +135,24 @@ export class LabPlanner {
     return { kind: "assigned", entry };
   }
 
+  private findCommonValidStart(
+  tech: Technician,
+  equip: Equipment,
+  candidate: TimeOfDay,
+  duration: DurationMinutes,
+  attempts = 0,
+): TimeOfDay | null {
+  if (attempts > 3) return null;
+
+  const techValid = tech.earliestValidStartFrom(candidate, duration);
+  if (techValid === null) return null;
+
+  const equipValid = equip.earliestValidStartFrom(techValid, duration);
+  if (equipValid === null) return null;
+
+  return techValid.isEqual(equipValid)
+    ? equipValid
+    : this.findCommonValidStart(tech, equip, equipValid, duration, attempts + 1);
+}
 
 }

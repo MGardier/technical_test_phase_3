@@ -31,6 +31,10 @@ export interface EquipmentDTO {
   readonly name: string;
   readonly type: EquipmentType;
   readonly available: boolean;
+  readonly maintenanceWindow: {
+    readonly start: TimeString;
+    readonly end: TimeString;
+  };
 }
 
 export interface PlanifyLabInputDTO {
