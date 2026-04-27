@@ -43,7 +43,7 @@ runTest(
       { id: "S1", type: "BLOOD", priority: "URGENT", analysisTime: 30, arrivalTime: "09:00", patientId: "P1" },
     ],
     technicians: [
-      { id: "T1", name: "Alice",efficiency: 1.0, speciality: "BLOOD", startTime: "08:00", endTime: "17:00" },
+      { id: "T1", name: "Alice",efficiency: 1.0, speciality: "BLOOD", startTime: "08:00", endTime: "17:00", lunchBreak: { start: "12:00", end: "13:00" } },
     ],
     equipment: [
       { id: "E1", name: "Blood Analyzer", type: "BLOOD", available: true },
@@ -69,7 +69,7 @@ runTest(
       { id: "S2", type: "BLOOD", priority: "STAT", analysisTime: 30, arrivalTime: "09:30", patientId: "P2" },
     ],
     technicians: [
-      { id: "T1", name: "Alice", efficiency: 1.0, speciality: "BLOOD", startTime: "08:00", endTime: "17:00" },
+      { id: "T1", name: "Alice", efficiency: 1.0, speciality: "BLOOD", startTime: "08:00", endTime: "17:00", lunchBreak: { start: "12:00", end: "13:00" } },
     ],
     equipment: [
       { id: "E1", name: "Blood Analyzer", type: "BLOOD", available: true },
@@ -96,8 +96,8 @@ runTest(
       { id: "S2", type: "URINE", priority: "URGENT", analysisTime: 30, arrivalTime: "09:00", patientId: "P2" },
     ],
     technicians: [
-      { id: "T1", name: "Alice",efficiency: 1.0, speciality: "BLOOD", startTime: "08:00", endTime: "17:00" },
-      { id: "T2", name: "Bob",efficiency: 1.0, speciality: "URINE", startTime: "08:00", endTime: "17:00" },
+      { id: "T1", name: "Alice",efficiency: 1.0, speciality: "BLOOD", startTime: "08:00", endTime: "17:00", lunchBreak: { start: "12:00", end: "13:00" } },
+      { id: "T2", name: "Bob",efficiency: 1.0, speciality: "URINE", startTime: "08:00", endTime: "17:00", lunchBreak: { start: "13:00", end: "14:00" } },
     ],
     equipment: [
       { id: "E1", name: "Blood Analyzer", type: "BLOOD", available: true },
@@ -124,7 +124,7 @@ runTest(
       { id: "S1", type: "BLOOD", priority: "URGENT", analysisTime: 30, arrivalTime: "09:00", patientId: "P1" },
     ],
     technicians: [
-      { id: "T1", name: "Alice", efficiency: 1.0, speciality: "BLOOD", startTime: "08:00", endTime: "17:00" },
+      { id: "T1", name: "Alice", efficiency: 1.0, speciality: "BLOOD", startTime: "08:00", endTime: "17:00", lunchBreak: { start: "12:00", end: "13:00" } },
     ],
     equipment: [
       { id: "E1", name: "Broken", type: "BLOOD", available: false },
@@ -150,7 +150,7 @@ runTest(
       { id: "S1", type: "TISSUE", priority: "URGENT", analysisTime: 30, arrivalTime: "09:00", patientId: "P1" },
     ],
     technicians: [
-      { id: "T1", name: "Alice",efficiency: 1.0, speciality: "BLOOD", startTime: "08:00", endTime: "17:00" },
+      { id: "T1", name: "Alice",efficiency: 1.0, speciality: "BLOOD", startTime: "08:00", endTime: "17:00", lunchBreak: { start: "12:00", end: "13:00" } },
     ],
     equipment: [
       { id: "E1", name: "Tissue Analyzer", type: "TISSUE", available: true },
@@ -175,7 +175,7 @@ runTest(
       { id: "S1", type: "BLOOD", priority: "URGENT", analysisTime: 60, arrivalTime: "16:30", patientId: "P1" },
     ],
     technicians: [
-      { id: "T1", name: "Alice", efficiency: 1.0, speciality: "BLOOD", startTime: "08:00", endTime: "17:00" },
+      { id: "T1", name: "Alice", efficiency: 1.0, speciality: "BLOOD", startTime: "08:00", endTime: "17:00", lunchBreak: { start: "12:00", end: "13:00" } },
     ],
     equipment: [
       { id: "E1", name: "Blood Analyzer", type: "BLOOD", available: true },
