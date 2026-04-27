@@ -27,6 +27,7 @@ const example1: PlanifyLabInputDTO = {
     {
       id: "T001",
       name: "Alice Martin",
+      efficiency: 1.0, //Add for retro compatibility
       speciality: "BLOOD",
       startTime: "08:00",
       endTime: "17:00",
@@ -67,6 +68,7 @@ const example2: PlanifyLabInputDTO = {
       id: "T001",
       name: "Tech 1",
       speciality: "BLOOD",
+      efficiency: 1.0, //Add for retro compatibility
       startTime: "08:00",
       endTime: "17:00",
     },
@@ -113,6 +115,7 @@ const example3: PlanifyLabInputDTO = {
     {
       id: "T001",
       name: "Tech 1",
+      efficiency: 1.0, //Add for retro compatibility
       speciality: "BLOOD",
       startTime: "08:00",
       endTime: "17:00",
@@ -120,6 +123,7 @@ const example3: PlanifyLabInputDTO = {
     {
       id: "T002",
       name: "Tech 2",
+      efficiency: 1.0, //Add for retro compatibility
       speciality: "GENERAL",
       startTime: "08:00",
       endTime: "17:00",
