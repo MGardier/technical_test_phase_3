@@ -17,7 +17,7 @@ pnpm install
 
 | Command | Description |
 |---|---|
-| `pnpm test` | Run the algorithm against the 3 example cases (`src/test-manual.ts`) |
+| `pnpm test` | Run the algorithm against the 3 example cases (`src/test/regression-test.ts`) |
 | `pnpm build` | Compile TypeScript to `dist/` via `tsc` |
 
 ## How it works
