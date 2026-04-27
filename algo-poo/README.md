@@ -133,3 +133,30 @@ src/
 └── test-manual.ts              # Manual test cases
 ~~~
 
+## Design Decisions and Trade-offs
+
+This implementation prioritizes **complete coverage of all required constraints** over **deep handling of edge cases**. Given the time budget, the goal is to deliver a working, deterministic algorithm across all 8 constraints rather than a perfect handling of any single one.
+
+### Lunch Break — Inviolable Time Slot
+
+The lunch break is treated as a **fixed, inviolable time slot** for each technician. No analysis can start during, overlap with, or partially cross the lunch break. If an analysis would conflict with the lunch break, the planner reschedules it after the break ends.
+
+The following advanced behaviors mentioned in the spec are intentionally **not implemented**:
+
+- **STAT interruption of lunch break.** A STAT sample arriving during a technician's lunch break does not interrupt the break in this implementation. The break is treated as a hard time slot, even for top-priority samples. If no other compatible technician is available, the STAT sample waits until the break ends.
+- **Flexible lunch break duration** (e.g., reducing the break to 30 minutes if an analysis ends at 12:30). The break is consumed in full at its predefined slot.
+- **Active rescheduling of ROUTINE samples** to free up a lunch break window when 12h–15h is saturated. The greedy algorithm does not perform any post-allocation reorganization.
+
+### Why these trade-offs
+
+These behaviors require either:
+
+- Mutable state on the lunch break itself (interruption tracking, remaining time, rescheduling logic), which would break the immutability of the domain model
+- Backtracking or reorganization after allocation, which is explicitly excluded from the intermediate-level scope (greedy + opportunistic parallelism)
+- Complex state tracking with significant added testing surface
+
+In a production system, these cases would be implemented as a follow-up iteration. For this technical assessment, the chosen approach maintains a clean, deterministic, and fully testable greedy scheduler across all 8 required constraints.
+
+### What is Detected vs. Handled
+
+When a sample cannot be scheduled within a technician's working hours (including being blocked by a lunch break with no rebound possible before end of shift), it is reported in `unscheduledSamples` with the reason `NO_RESOURCE_AVAILABLE_IN_HOURS`. The information is surfaced to the caller rather than silently dropped.
