@@ -76,21 +76,21 @@ export class LabPlanner {
         const equipAvail = this.equipmentAvailability.get(equip.id)!;
 
         //Get candidate start based on max value between sample , tech & equip
-        const candidateStart = TimeOfDay.max(
+        const naturalStart = TimeOfDay.max(
           sample.arrivalTime,
           techAvail.getNextFreeTime(),
           equipAvail.getNextFreeTime(),
         );
 
-        //If tech can't handle it we search another one
         const effectiveDuration = sample.effectiveDurationFor(tech);
-        if (!tech.canFitAnalysis(candidateStart, effectiveDuration))
-          continue;
+        const validStart = tech.earliestValidStartFrom(naturalStart, effectiveDuration);
+
+        //If tech can't handle it we search another one
+        if (validStart === null) continue;
 
         //We check if an new assignement can be better than the current
-        if (bestAssignment === null || candidateStart.isBefore(bestAssignment.start))
-          bestAssignment = { tech, equip, start: candidateStart };
-
+        if (bestAssignment === null || validStart.isBefore(bestAssignment.start)) 
+          bestAssignment = { tech, equip, start: validStart };
       }
     }
 
