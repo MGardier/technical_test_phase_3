@@ -5,4 +5,5 @@ export type TimeString = `${number}:${number}`;
 /** Duration expressed in minutes.*/
 export type DurationMinutes = number;
 
-
+/** Decimal 0.00  */
+export type EfficiencyCoefficient = number;

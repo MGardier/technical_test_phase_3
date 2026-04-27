@@ -12,3 +12,4 @@ export type AssignmentResult =
 export type BestAssignment = { tech: Technician; equip: Equipment; start: TimeOfDay }
 
 export type PlanResult = { scheduleEntries: ScheduleEntry[]; unscheduledSamples: UnscheduledSample[] } 
+

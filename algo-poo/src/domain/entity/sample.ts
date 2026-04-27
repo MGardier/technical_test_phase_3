@@ -2,6 +2,7 @@ import { EquipmentType, Priority, PriorityRank, SampleType, TechnicianSpeciality
 import { SampleDTO } from "../../dto/input.dto";
 import { DurationMinutes } from "../../types/primitives";
 import { TimeOfDay } from "../value-object/time-of-day";
+import { Technician } from "./technician";
 
 export class Sample {
 
@@ -55,5 +56,9 @@ export class Sample {
     if (this.arrivalTime.isAfter(other.arrivalTime)) return 1;
     return 0;
 
+  }
+
+   effectiveDurationFor(technician: Technician): DurationMinutes {
+    return Math.round(this.analysisTime / technician.efficiency);
   }
 }

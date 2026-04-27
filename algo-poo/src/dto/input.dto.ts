@@ -1,4 +1,5 @@
-import { TimeString } from "../types/primitives";
+
+import { EfficiencyCoefficient, TimeString } from "../types/primitives";
 import { EquipmentType, Priority, SampleType, TechnicianSpeciality } from "./enums";
 
 
@@ -14,6 +15,7 @@ export interface SampleDTO {
 export interface TechnicianDTO {
   readonly id: string;
   readonly name: string;
+  readonly efficiency: EfficiencyCoefficient
   readonly speciality: TechnicianSpeciality;
   readonly startTime: TimeString;
   readonly endTime: TimeString;

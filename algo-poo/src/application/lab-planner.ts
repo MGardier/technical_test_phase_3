@@ -83,7 +83,8 @@ export class LabPlanner {
         );
 
         //If tech can't handle it we search another one
-        if (!tech.canFitAnalysis(candidateStart, sample.analysisTime))
+        const effectiveDuration = sample.effectiveDurationFor(tech);
+        if (!tech.canFitAnalysis(candidateStart, effectiveDuration))
           continue;
 
         //We check if an new assignement can be better than the current
@@ -115,18 +116,23 @@ export class LabPlanner {
       return { kind: "unassigned", reason: UnscheduledReason.NO_RESOURCE_AVAILABLE_IN_HOURS };
 
 
-    const timeSlot = TimeSlot.fromStartAndDuration(bestAssignment.start, sample.analysisTime);
+
+    const effectiveDuration = sample.effectiveDurationFor(bestAssignment.tech);
+    const timeSlot = TimeSlot.fromStartAndDuration(bestAssignment.start, effectiveDuration);
+
     const entry = new ScheduleEntry(sample, bestAssignment.tech, bestAssignment.equip, timeSlot);
 
     this.technicianAvailability.get(bestAssignment.tech.id)!.occupy(
       bestAssignment.start,
-      sample.analysisTime,
+      effectiveDuration,
     );
     this.equipmentAvailability.get(bestAssignment.equip.id)!.occupy(
       bestAssignment.start,
-      sample.analysisTime,
+     effectiveDuration,
     );
 
     return { kind: "assigned", entry };
   }
+
+
 }
